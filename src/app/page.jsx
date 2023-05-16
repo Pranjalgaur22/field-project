@@ -1,6 +1,24 @@
 "use client"
 import { useState, useEffect } from 'react'
 
+const Slideshow = ({ images, interval = 3000 }) => {
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
+    }, interval);
+
+    return () => clearInterval(timer);
+  }, [images.length, interval]);
+
+  return (
+    <div className='h-full flex items-center'>
+      <img className='aspect-video w-1/2' src={images[currentIndex]} alt="Slideshow" />
+    </div>
+  );
+};
+
 export default function Home() {
 
   const [name, setName] = useState('')
@@ -12,25 +30,17 @@ export default function Home() {
     message: "Wonderful site made by a wonderful person"
   },
   {
-    name: "Aman Varshney",
-    email: "av.amanvarshney11@gmail.com",
-    message: "Wonderful site made by a wonderful person"
+    name: "Abhishek Dubey",
+    email: "abhishek@ahah.com",
+    message: "boht achi site hai dost"
   },
-  {
-    name: "Aman Varshney",
-    email: "av.amanvarshney11@gmail.com",
-    message: "Wonderful site made by a wonderful person"
-  },
-  {
-    name: "Aman Varshney",
-    email: "av.amanvarshney11@gmail.com",
-    message: "Wonderful site made by a wonderful person"
-  },
-  {
-    name: "Aman Varshney",
-    email: "av.amanvarshney11@gmail.com",
-    message: "Wonderful site made by a wonderful person"
-  }]);
+ ]);
+
+ const images = [
+  '/im/5613650.webp',
+  '/im/5614550.webp',
+  '/im/5614826.jpg',
+ ]
 
   const handleNameChange = (event) => {
     setName(event.target.value)
@@ -65,7 +75,9 @@ export default function Home() {
         <video src="./im/video1.webm" autoPlay muted loop className="bg-cover" ></video>
       </div>
       <div className="formsc w-full">
-        <div className='w-full'></div>
+        <div className='w-full'>
+        <Slideshow images={images} />
+        </div>
         <div className="com">
           <form id="myForm" onSubmit={handleSubmit}>
             <h1 className='text-2xl'>Give Your Feedback</h1>
@@ -83,9 +95,9 @@ export default function Home() {
       <div className='w-full h-max bg-white'>
       <div className="w-full text-center text-4xl font-semibold py-5">Your Feedback</div>
         {submittedData.length > 0 ? (
-          <ul className='px-10 my-10 w-full flex flex-row gap-4'>
+          <ul className='px-10 my-10 w-full flex flex-row gap-4 flex-wrap'>
             {submittedData.map((data, index) => (
-              <li className='flex flex-col max-w-[30vw] text-center bg-green-300 p-4 gap-4 rounded-lg' key={index}>
+              <li className='flex flex-col min-w-[30vw] text-center bg-green-300 p-4 gap-4 rounded-lg' key={index}>
                 <span className='text-2xl'>{data.name}</span>
                 <span>{data.email}</span>
                 <span className='text-lg'>{data.message}</span>
